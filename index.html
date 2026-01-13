@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World - Go & Jelastic</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #response {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Go + Jelastic</h1>
+        <p>Clique no botão abaixo para testar a API.</p>
+        <button onclick="getHello()">Hello World</button>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        async function getHello() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerText = "Carregando...";
+            
+            try {
+                const response = await fetch('/api/hello');
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                const data = await response.json();
+                responseDiv.innerText = data.message;
+            } catch (error) {
+                console.error('Erro:', error);
+                responseDiv.innerText = "Erro ao conectar com o servidor.";
+                responseDiv.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
